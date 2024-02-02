@@ -10,14 +10,46 @@ async function getCustomer(req: Request, res: Response, next: NextFunction) {
     else
         res.sendStatus(404);
 }
+async function getuseremail(req: Request, res: Response, next: NextFunction) {
+    console.log("controller " + req)
+    const data = await customerRepository.get_user_email(req);
+    //console.log("eroooooooooooooooooooooooooou")
+    //const data = {"deu certo ????": "deu errado ??"} 
+    if (data)
+        res.status(201).json(data);
+    else
+        res.sendStatus(404);
+}
 
 async function getCustomers(req: Request, res: Response, next: NextFunction) {
+
     const customers = await customerRepository.getCustomers();
     res.json(customers);
 }
+
+async function getpostsuser(req: Request, res: Response, next: NextFunction) {
+
+    console.log("controller " + req)
+    const data = await customerRepository.getpostsuser(req);
+    //console.log("eroooooooooooooooooooooooooou")
+    //const data = {"deu certo ????": "deu errado ??"} 
+    if (data)
+        res.status(201).json(data);
+    else
+        res.sendStatus(404);
+}
 async function postCustomer(req: Request, res: Response, next: NextFunction) {
-    const customer = req.body as Customer;
+    const customer = req.body ;
     const result = await customerRepository.addCustomer(customer);
+    if (result)
+        res.status(201).json(result);
+    else
+        res.sendStatus(400);
+}
+async function savepost(req: Request, res: Response, next: NextFunction) {
+    console.log("save post " +  req.body)
+    const data = req.body;
+    const result = await customerRepository.savepost(data);
     if (result)
         res.status(201).json(result);
     else
@@ -48,5 +80,8 @@ export default {
     getCustomers,
     postCustomer,
     patchCustomer,
-    deleteCustomer
+    deleteCustomer,
+    getuseremail,
+    savepost,
+    getpostsuser
 }

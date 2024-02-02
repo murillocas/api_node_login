@@ -1,25 +1,26 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
+const userData = {
+  "name": "Nome do Cliente",
+  "email": "123@gmail.com",
+  "senha": "teste"
+};
 
-async function main() {
-  // ... you will write your Prisma Client queries here
-  const user = await prisma.user.create({
-    data: {
-      name: 'Alice',
-      email: 'alice@prisma.io',
-      senha: 'senhaaki',
-    },
-  })
-  console.log(user)
+export async function create_user(info:any) {
+  try {
+    console.log("testestestestes" + info)
+    const user = await prisma.user.create({
+      data: {
+        name: info.name,
+        email: info.email,
+        senha: info.senha,
+      }
+    });
+    console.log(user);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    await prisma.$disconnect();
+  }
 }
-
-main()
-  .then(async () => {
-    await prisma.$disconnect()
-  })
-  .catch(async (e) => {
-    console.error(e)
-    await prisma.$disconnect()
-    process.exit(1)
-  })
